@@ -1,7 +1,11 @@
 'use strict';
 
-const awsServerlessExpress = require('aws-serverless-express')
-const app = require('./app')
-const server = awsServerlessExpress.createServer(app)
-
-exports.handler = (event, context) => awsServerlessExpress.proxy(server, event, context);
+var time = require('time');
+exports.handler = (event, context, callback) => {
+    var currentTime = new time.Date();
+    currentTime.setTimezone("America/Denver");
+    callback(null, {
+        statusCode: '200',
+        body:  JSON.stringify({ time:currentTime.getTime()}),
+    });
+};
